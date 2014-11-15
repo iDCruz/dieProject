@@ -1,0 +1,82 @@
+#include<iostream>
+#include<vector>
+#include<ctime>
+#include<cmath>  
+
+using namespace std;
+
+/*
+David Cruz Project1
+October 15, 2014
+*/
+
+
+int main(){
+	
+	int die1 = 0;				      	//holds number rolled
+
+	vector<int>numRolls(6);			//vector to hold numRolls
+
+	int i = 0;						    // counter
+
+	srand(static_cast<unsigned int> (time(NULL)));		//seed for random number generator. 
+														//cast time_t to unsigned int
+	while (i < 6000){				//roll six-sided die 6000 times and keep track of results
+		die1 = rand() % 6 + 1;
+
+		++numRolls.at((die1 - 1));
+
+		++i;
+	}
+
+	cout << "RESULTS" << endl;		// print frequency distribution
+
+	for (i = 0; i < 6; ++i){
+		cout << i + 1 << " ----- " << numRolls.at(i) << "\n" << endl;
+	}
+
+	int max = numRolls.at(0);		// initialize max 
+	
+	for (i = 0; i < 6; ++i){		// which # was rolled most & # times it was rolled
+		if (numRolls.at(i) > max){
+			max = numRolls.at(i);
+		}
+	}
+
+	double j = 0;					//hold # of x that will be printed for each side of the die
+
+	double x = 0;					//calculate what one x is. given that max should be 60 "x"s
+	x = (double)max / 60;			//don't round here because it could cause problems see below. 
+	double w = x;					//1038/60 = 17.3 if we round to 17. 1037/17=61 "x"s
+
+
+	cout << "HISTOGRAM" << "\t x is approximately " << round(w) << " occurrences." << endl;
+
+	for (i = 0; i < 6; ++i){		//prints histogram 
+
+		j = numRolls.at(i);
+
+		if (j == max){				//highest number = 60 "x"s in histogram
+			j = 60;
+		}
+
+		else{						//calculate number of "x"s for each side (1-6) of the die
+			j = round(j / x);		//used round to get a whole # for # of "x"s. parentheses around round?	
+		}
+
+		cout << i + 1 << " ";
+
+		while (j > 0){				//loop prints out corresponding # of "x"s
+			cout << "x";
+
+			--j;
+		}
+
+			cout << "\n";
+	}
+
+		return 0;
+
+}			
+
+
